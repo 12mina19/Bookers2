@@ -1,0 +1,39 @@
+<h2>Book#show</h2>
+
+<!--bookのindexページの左側の作成(User info)テンプレうまくできなかった-->
+<h2>User info</h2>
+<%= image_tag @user.get_profile_image(100, 100) %>
+<table>
+  <tbody>
+    <tr></tr>
+    <tr>
+      <th>name</th>
+      <th><%= @user.name %></th>
+      <th></th>
+    </tr>
+    <tr>
+      <th>introduction</th>
+      <th><%= @user.introduction %></th>
+    </tr>
+  </tbody>
+</table>
+
+
+<!--New Bookを作成-->
+<h2>New book</h2>
+<%= form_with model: @book_new do |f| %>
+  <label>Title</label>
+  <%= f.text_field :title %>
+  <label>Opinion</label>
+  <%= f.text_area :body %>
+  <%= f.submit 'Create Book' %>
+<% end %>
+
+
+<!--Book detail画面-->
+
+<%= image_tag @book.user.get_profile_image(80,80) %>
+<%= @book.user.name %>
+<!--nameから一覧画面にとぶ-->
+<%= @book.title %>
+<%= @book.body %>
