@@ -1,22 +1,10 @@
-<h2>Book#show</h2>
+<h2>Books#show</h2>
+<!--新規投稿が成功した時、You have created book successfully.と表示-->
+<%= flash[:complete] %>
 
-<!--bookのindexページの左側の作成(User info)テンプレうまくできなかった-->
-<h2>User info</h2>
-<%= image_tag @user.get_profile_image(100, 100) %>
-<table>
-  <tbody>
-    <tr></tr>
-    <tr>
-      <th>name</th>
-      <th><%= @user.name %></th>
-      <th></th>
-    </tr>
-    <tr>
-      <th>introduction</th>
-      <th><%= @user.introduction %></th>
-    </tr>
-  </tbody>
-</table>
+<!--左側の作成(User info)-->
+<%= render 'books/list', user: @user %>
+
 
 
 <!--New Bookを作成-->
@@ -31,9 +19,15 @@
 
 
 <!--Book detail画面-->
-
+<h2>Book detail</h2>
 <%= image_tag @book.user.get_profile_image(80,80) %>
-<%= @book.user.name %>
-<!--nameから一覧画面にとぶ-->
+<%= link_to @book.user.name, user_path(@user.id) %>
+<!--nameからuser#showにとぶ-->
 <%= @book.title %>
 <%= @book.body %>
+
+<% if @book.user == current_user %>
+ <%= link_to "Edit", edit_book_path(@book.id) %>
+ <%= link_to "Destroy", book_path(@book.id), method: :delete %>
+<% end %>
+

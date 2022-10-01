@@ -3,8 +3,7 @@ class ApplicationController < ActionController::Base
   
   # サインイン後、Bookの一覧画面（index)にとぶ
   def after_sign_in_path_for(resource)
-    about_path 
-    #たぶん今はログアウトできてないからフォーマットが表示されない？
+    books_path
   end
   
   # ログアウト後、Topページ（ルートページ）にとぶ

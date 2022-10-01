@@ -1,17 +1,22 @@
 <!--テンプレートにするために@userの@を全部とった-->
 <h2>User info</h2>
-<%= image_tag user.get_profile_image(100, 100) %>
-<table>
-  <tbody>
-    <tr></tr>
-    <tr>
-      <th>name</th>
-      <th><%= user.name %></th>
-      <th></th>
-    </tr>
-    <tr>
-      <th>introduction</th>
-      <th><%= user.introduction %></th>
-    </tr>
-  </tbody>
-</table>
+  <%= image_tag user.get_profile_image(100, 100) %>
+  <table>
+    <tbody>
+      <tr></tr>
+      <tr>
+        <th>name</th>
+        <th><%= user.name %></th>
+      </tr>
+      <tr>
+        <th>introduction</th>
+        <th><%= user.introduction %></th>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <!--レイアウトではボタンにする-->
+    <%= link_to 'マークのボタンに変更', edit_user_path(user.id) %>
+  </div>
+

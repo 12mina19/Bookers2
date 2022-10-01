@@ -1,10 +1,26 @@
-<!--bookのindexページの左側の作成(User info)-->
-<!--テンプレートファイルからの呼び出し-->
+<!--ログイン時、Signed in successfully.を表示-->
+<%= notice %>
+
+<!--新規投稿と投稿の更新が成功した時-->
+<%= flash[:complete] %>
+
+<!--テンプレートファイルからUser infoの呼び出し-->
 <%= render 'list', user: @user %>
+
+
+<!--バリデーション：新規投稿が失敗した時-->
+<% if @book.errors.any? %>
+  <%= @book.errors.count %>error prohibited this obj from being saved:
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
 
 <!--New Bookを作成-->
 <h2>New book</h2>
-<%= form_with model:@book do |f| %>
+<%= form_with model: @book do |f| %>
   <label>Title</label>
   <%= f.text_field :title %>
   <label>Opinion</label>
@@ -27,16 +43,10 @@
     
     
   <tbody>
-    <!--<% if @user.profile_image.attached? %>-->
-    <!--  <%= image_tag @user.profile_image, size: "100x100" %>-->
-    <!--<% else %>-->
-    <!--  <%= image_tag 'no_image', size: "100x100" %>-->
-    <!--<% end %>-->
-    
   
       <% @books.each do |book| %>
-        <%= image_tag book.get_image %>
-        <span><%= link_to book.title, books_path %></span>
+        <%= image_tag book.user.get_profile_image(100,100) %>
+        <span><%= link_to book.title, book_path(book.id) %></span>
         <span><%= book.body %></span>
       <% end %>
   
