@@ -39,6 +39,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
       t.timestamps null: false
     end
+    
+    # nameに一意性を持たせる
+    add_index :users, :name, unique: true
 
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true

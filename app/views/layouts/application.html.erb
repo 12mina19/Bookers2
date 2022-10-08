@@ -1,60 +1,113 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!--FontAwesomeのコード貼付け-->
+    <script src="https://kit.fontawesome.com/29e50a9fc0.js" crossorigin="anonymous"></script>
+    
     <title>Bookers2</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <!--表示領域や表示倍率などのために記述-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!--Bootstrap導入のため、link→packに書き換え-->
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   
   <body>
     <header>
-      <% if user_signed_in? %>
-      <!--ログイン済の場合、ここからelseまでの間が表示される-->
-        <li>
-          <%= link_to "Bookers", root_path %>
-        </li>
-        <li>
-          <%= link_to "Home", user_path(@user.id) %>
-          <!--リンク先をUser#showにする。Book#editへ移行しようとすると定義不足のエラーがでる。どうしてそこに影響がでた？個別への移動が被ったから？-->
-          <!--そこで、Bookコントローラー＃editとhomesコントローラーに@user = current_userを追加してみた。そしたら定義不足のエラーが解消された-->
-          <!--この処理でどうして解決できたのか理解できていない-->
-        </li>
-        <li>
-          <%= link_to "Users", users_path %>
-        </li>
-        <li>
-          <%= link_to "Books", books_path %>
-        </li>
-        <li>
-          <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-        </li>
-      <!--ログインしていない場合、ここから下の部分が表示される-->
-      <% else %>
-        <li>
-          <%= link_to "Bookers", root_path %>
-        </li>
-        <li>
-          <%= link_to "Home", root_path %>
-        </li>
-        <li>
-          <%= link_to "About", about_path %>
-        </li>
-        <li>
-          <%= link_to "Sign up", new_user_registration_path %>
-        </li>
-        <li>
-          <%= link_to "Log in", new_user_session_path %>
-        </li>
-      <% end %>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          
+          <% if user_signed_in? %>
+          <!--ログイン済の場合、ここからelseまでの間が表示される-->
+            <span>
+              <%= link_to "Bookers", root_path, class: 'navbar-brand' %>
+            </span>
+            <!--collapseは、コンテンツの開閉。ハンバーガーメニュー-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          　<div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <!--mlはmargin-leftという意味。左に余白ができて、右寄せになる-->
+              <ul class="navbar-nav ml-auto">
+                <li>
+                  <%= link_to user_path(@user.id), class: 'nav-link text-light' do%>
+                    <i class="fas fa-home"></i>Home
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to users_path, class: 'nav-link text-light' do%>
+                    <i class="fas fa-users"></i>Users
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to books_path, class: 'nav-link text-light' do%>
+                    <i class="fas fa-book-open"></i>Books
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-light' do%>
+                    <i class="fas fa-sign-out-alt"></i>Log out
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+          <!--ログインしていない場合、ここから下の部分が表示される-->
+          <% else %>
+            <span>
+              <%= link_to "Bookers", root_path, class: 'navbar-brand' %>
+            </span>
+            <!--collapseは、コンテンツの開閉。ハンバーガーメニュー-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          　<div class="collapse navbar-collapse" id="navbarNavDropdown">
+          　   <!--mlはmargin-leftという意味。左に余白ができて、右寄せになる-->
+              <ul class="navbar-nav ml-auto">  
+                <li>
+                  <%= link_to root_path, class: 'nav-link text-light' do %>
+                    <i class="fas fa-home"></i>Home
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to about_path, class: 'nav-link text-light' do  %>
+                    <i class="fas fa-link"></i>About
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to new_user_registration_path, class: 'nav-link text-light' do %>
+                    <i class="fas fa-user-plus"></i>Sign up
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to new_user_session_path, class: 'nav-link text-light' do %>
+                    <i class="fas fa-sign-in-alt"></i>Log in
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      </nav>
     </header>
-    
     <!--このyieldがないとhtmlからのデータを読み込まない。必ず必要-->
     <%= yield %>
+    
+    <footer>
+      <div class="container mt-5">
+      	<div class="row">
+      	  <!--margin:0 auto ; (要素を真ん中に)-->
+        	<div class="mx-auto">
+        		<p>CopyRight Infratop.inc</p>
+        	</div>
+        </div>
+      </div>
+    </footer>
+    
   </body>
   
 </html>

@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
+  # ログインしていない時のアクセス制限
+  before_action :authenticate_user!, except: [:top, :about]
+  
   before_action :configure_permitted_parameters, if: :devise_controller?
   
-  # サインイン後、Bookの一覧画面（index)にとぶ
   def after_sign_in_path_for(resource)
-    books_path
+    user_path(current_user)
   end
   
-  # ログアウト後、Topページ（ルートページ）にとぶ
   def after_sign_out_path_for(resource)
     root_path
   end
@@ -14,7 +15,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email])
   end
   
 end
